@@ -3,35 +3,35 @@
     "id": "p001",
     "name": "Bro",
     "price": 1999,
-    "image": "https://via.placeholder.com/250/FF0000/FFFFFF?text=Product+1",
+    "image": "images/p001.jpg",
     "category": "new-arrival"
   },
   {
     "id": "p002",
     "name": "大金魚",
     "price": 6666,
-    "image": "https://via.placeholder.com/250/0000FF/FFFFFF?text=Product+2",
+    "image": "images/002.jpg",
     "category": "new-arrival"
   },
   {
     "id": "p003",
     "name": "高冷男神",
     "price": 28880,
-    "image": "https://via.placeholder.com/250/00FF00/FFFFFF?text=Product+3",
+    "image": "images/p003.jpg",
     "category": "new-arrival"
   },
   {
     "id": "p004",
     "name": "二手飛機杯",
     "price": 99980,
-    "image": "https://via.placeholder.com/250/FFFF00/000000?text=Product+4",
+    "image": "images/004.jpg",
     "category": "simon-punk"
   },
   {
     "id": "p005",
     "name": "原味內褲",
     "price": 980,
-    "image": "https://via.placeholder.com/250/FF00FF/FFFFFF?text=Product+5",
+    "image": "images/p005.jpg",
     "category": "simon-punk"
   }
 ] 
