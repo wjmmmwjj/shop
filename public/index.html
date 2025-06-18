@@ -3,81 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMON 線上商店 - 範例</title>
-    <base href="/shop/">
+    <title>線上商店</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <nav>
+    <header class="main-header">
+        <div class="top-bar">
+            <div class="back-button-container">
+                <a href="#" onclick="history.back(); return false;">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="language-currency">
+                <span>English</span>
+                <span>NT$</span>
+            </div>
+            <div class="user-actions">
+                <i class="fas fa-user"></i>
+                <a href="checkout.html" class="cart-icon-container">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                </a>
+                <i class="fas fa-comment"></i>
+                <div class="search-box">
+                    <input type="text" placeholder="Search Products">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav">
             <div class="logo">
-                <a href="/">SIMON</a>
+                <a href="/">NT$</a>
             </div>
             <ul class="nav-links">
-                <li><a href="#">所有商品</a></li>
-                <li><a href="#">新品上市</a></li>
-                <li><a href="#">SIMON MADE</a></li>
-                <li><a href="#">選品品牌</a></li>
-                <li><a href="#">人氣TOP15</a></li>
-                <li><a href="#">男裝選貨</a></li>
-                <li><a href="#">女裝選貨</a></li>
-                <li><a href="#">會員登入</a></li>
-                <li><a href="#">聯絡我們</a></li>
+                <li><a href="#">VIP Only ></a></li>
+                <li><a href="#">Benz-AMG ></a></li>
+                <li><a href="#">M.Performance ></a></li>
+                <li><a href="#">Audi.RS ></a></li>
+                <li><a href="#">Remaster ></a></li>
+                <li><a href="#">Limited Edition ></a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="hero-section">
-            <h1>SIMON MADE 2025 S/S</h1>
-            <p>2025 SPRING/SUMMER COLLECTION</p>
-            <a href="#new-arrivals-section" class="shop-now-button">SHOP NOW</a>
-        </section>
-
-        <section class="new-arrivals" id="new-arrivals-section">
-            <h2>NEW ARRIVAL</h2>
-            <div class="product-grid">
+        <div id="maintenance-message" style="display: none; text-align: center; padding: 50px; font-size: 24px; color: #555; background-color: white; height: calc(100vh - 150px); display: flex; align-items: center; justify-content: center;">
+            抱歉，網站目前正在維護中，請稍後再訪。
+        </div>
+        <section class="product-display-area">
+            <div class="product-grid" id="product-list">
                 <!-- Products will be loaded here by JavaScript -->
             </div>
-            <button class="view-more">查看更多</button>
-        </section>
-
-        <section class="simon-punk">
-            <h2>SIMON PUNK V2</h2>
-            <div class="product-grid">
-                <!-- Products will be loaded here by JavaScript -->
-            </div>
-            <button class="view-more">查看更多</button>
         </section>
     </main>
 
     <footer>
         <div class="footer-links">
             <div class="footer-column">
-                <h3>ABOUT US</h3>
-                <ul>
-                    <li><a href="#">商店介紹</a></li>
-                    <li><a href="#">品牌故事</a></li>
-                    <li><a href="#">店面資訊</a></li>
-                    <li><a href="#">會員權益</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>SERVICE</h3>
-                <ul>
-                    <li><a href="#">運送服務方式</a></li>
-                    <li><a href="#">付款服務方式</a></li>
-                    <li><a href="#">退換貨政策</a></li>
-                    <li><a href="#">隱私權政策</a></li>
-                    <li><a href="#">條款與細則</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
                 <h3>CONTACT US</h3>
-                <p>EMAIL: s122860811@gmail.com</p>
-                <p>台中店｜Taichung: 台中市北區錦新街18號</p>
-                <p>台北店｜Taipei: 台北市萬華區武昌街二段50巷16號1樓</p>
-                <p>台南店｜Tainan: 台南市中西區萬昌街133-1號</p>
+                <ul>
+                    <li><a href="#">EMAIL: txt</a></li>
+                    <li><a href="#">桃園店:雙子大樓</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>法律聲明</h3>
+                <ul>
+                    <li><a href="#">txt</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>商家資訊</h3>
+                <ul>
+                    <li><a href="#">txt</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>公司資訊</h3>
+                <ul>
+                    <li><a href="#">txt</a></li>
+                </ul>
             </div>
         </div>
         <div class="footer-bottom">
@@ -87,6 +93,6 @@
             </div>
         </div>
     </footer>
-    <script src="script.js"></script>
+    <script src="index.js"></script>
 </body>
 </html> 
