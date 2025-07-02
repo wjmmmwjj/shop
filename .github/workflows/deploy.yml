@@ -1,0 +1,32 @@
+name: Deploy Static Site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master # 當 master 分支有新的 push 時觸發
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public # 指定要部署的資料夾，即您的 public 資料夾
+
+  deploy:
+    needs: build # 確保在構建步驟完成後才執行部署
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write      # 允許寫入 Pages 部署
+      id-token: write   # 允許 OIDC 認證
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 

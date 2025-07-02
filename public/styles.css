@@ -1,0 +1,398 @@
+html {
+    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f8f8f8; /* Light grey background */
+    color: #333;
+}
+
+/* Header and Navigation */
+.main-header {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between; /* Changed from flex-end to space-between */
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f4f4f4; /* Lighter background for top bar */
+    border-bottom: 1px solid #ddd;
+    font-size: 0.9em;
+}
+
+.back-button-container {
+    /* Add specific styles for back button container if needed */
+}
+
+.back-button-container a {
+    color: #555; /* Icon color */
+    font-size: 1.1em; /* Icon size, consistent with other icons */
+    text-decoration: none;
+    padding: 5px; /* Add some padding for easier clicking */
+    transition: color 0.3s ease;
+}
+
+.back-button-container a:hover {
+    color: #007bff; /* Hover effect */
+}
+
+.language-currency span {
+    margin-right: 15px;
+    color: #555;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-actions i {
+    margin-left: 20px;
+    font-size: 1.1em;
+    color: #555;
+    cursor: pointer;
+}
+
+.cart-icon-container {
+    position: relative;
+    display: inline-block; /* To contain the absolute positioned count */
+    margin-left: 20px;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px; /* Adjust as needed */
+    right: -8px; /* Adjust as needed */
+    background-color: #ff0000; /* Red background for the badge */
+    color: white;
+    font-size: 0.7em;
+    font-weight: bold;
+    border-radius: 50%; /* Make it circular */
+    padding: 3px 6px; /* Adjust padding for a good look */
+    min-width: 18px; /* Ensure minimum width for single digits */
+    text-align: center;
+    line-height: 1; /* Adjust line height for vertical alignment */
+    white-space: nowrap; /* Prevent number from wrapping */
+}
+
+/* 搜尋框樣式 */
+.search-box {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.search-box input {
+    padding: 8px 30px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    width: 180px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    width: 220px;
+    border-color: #aaa;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.search-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.search-button i {
+    color: #777;
+    font-size: 14px;
+}
+
+.search-button:hover i {
+    color: #333;
+}
+
+/* 搜尋結果標題樣式 */
+.search-results-header {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* 標籤樣式 */
+.product-tags {
+    margin-top: 8px;
+    font-size: 0.8em;
+    color: #777;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-nav .logo a {
+    font-size: 1.8em; /* 增大圖標尺寸 */
+    font-weight: bold;
+    color: #333; /* Color from image */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.main-nav .logo a:hover {
+    color: #007bff; /* 滑鼠懸停時變色 */
+}
+
+.main-nav .nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-nav .nav-links li {
+    margin-left: 30px;
+}
+
+.main-nav .nav-links a {
+    text-decoration: none;
+    color: #333; /* Darker color for main nav links */
+    font-weight: bold;
+    font-size: 1em;
+    transition: color 0.3s ease;
+}
+
+.main-nav .nav-links a:hover {
+    color: #007bff;
+}
+
+/* Main content area */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Product Display Area */
+.product-display-area {
+    padding: 20px 0;
+}
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted for 3-column layout */
+    gap: 20px;
+    justify-content: center;
+}
+
+.product-item {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    position: relative; /* For sold out label */
+    overflow: hidden;
+    padding-bottom: 20px; /* Adjusted padding */
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    padding: 10px; /* Reduced padding for image */
+}
+
+.product-item h3 {
+    font-size: 1.1em; /* Smaller font for title */
+    margin-bottom: 5px;
+    color: #333;
+    padding: 0 10px;
+    text-align: left; /* Aligned left as per image */
+}
+
+.product-item p {
+    font-size: 0.9em; /* Smaller font for price */
+    color: #777; /* Greener color */
+    font-weight: normal;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    text-align: left; /* Aligned left as per image */
+}
+
+.product-item .price-info {
+    font-size: 0.9em;
+    color: #777;
+    text-align: left;
+    padding: 0 10px;
+    margin-top: -5px; /* Adjust spacing */
+}
+
+.product-item .price-info span {
+    font-weight: bold;
+    color: #333;
+}
+
+
+/* SOLD OUT overlay */
+.sold-out-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    font-size: 0.8em;
+    border-radius: 3px;
+    z-index: 5;
+    pointer-events: none; /* Allows clicks to pass through */
+    opacity: 0.9;
+}
+
+/* Remove unused styles */
+.hero-section,
+.new-arrivals,
+.simon-punk,
+.shop-now-button,
+.view-more,
+.new-arrival-badge,
+.heart-icon {
+    display: none;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    opacity: 0; /* Initially hidden */
+    pointer-events: none; /* Prevents interaction when hidden */
+    transition: opacity 0.5s ease-in-out; /* Smooth transition */
+}
+
+footer.show-footer {
+    opacity: 1; /* Show when this class is added */
+    pointer-events: auto; /* Allow interaction when shown */
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Changed from space-around for more precise control */
+    max-width: 1200px;
+    margin: 0 auto 30px auto; /* Add margin-bottom for spacing with footer-bottom */
+}
+
+.footer-column {
+    flex: 1; /* Distribute space equally */
+    min-width: 200px; /* Minimum width to prevent crushing on smaller screens */
+    padding: 0 15px; /* Added horizontal padding for spacing between columns */
+    margin-bottom: 20px; /* Add some space below each column before wrapping */
+}
+
+.footer-column h3 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #fff;
+    white-space: nowrap; /* Prevent title from wrapping */
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-column ul li a:hover {
+    color: #fff;
+}
+
+.footer-column p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.footer-bottom {
+    border-top: 1px solid #555;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.footer-bottom p {
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .user-actions {
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+    .user-actions i, .search-box {
+        margin-left: 0;
+        margin-right: 15px;
+        margin-bottom: 10px;
+    }
+    .main-nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .main-nav .nav-links {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 15px;
+    }
+    .main-nav .nav-links li {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .footer-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-column {
+        text-align: center;
+        width: 100%;
+    }
+} 

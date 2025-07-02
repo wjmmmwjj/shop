@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>線上商店</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="top-bar">
+            <div class="back-button-container">
+                <a href="#" onclick="history.back(); return false;">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="language-currency">
+                <span>English</span>
+                <span>NT$</span>
+            </div>
+            <div class="user-actions">
+                <i class="fas fa-user"></i>
+                <a href="checkout.html" class="cart-icon-container">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                </a>
+                <i class="fas fa-comment"></i>
+                <form id="search-form" class="search-box">
+                    <input type="text" id="search-input" placeholder="搜尋商品名稱或標籤">
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="/"><i class="fas fa-home"></i></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">VIP Only ></a></li>
+                <li><a href="#">Benz-AMG ></a></li>
+                <li><a href="#">M.Performance ></a></li>
+                <li><a href="#">Audi.RS ></a></li>
+                <li><a href="#">Remaster ></a></li>
+                <li><a href="#">Limited Edition ></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="maintenance-message" style="display: none; text-align: center; padding: 50px; font-size: 24px; color: #555; background-color: white; height: calc(100vh - 150px); display: flex; align-items: center; justify-content: center;">
+            抱歉，網站目前正在維護中，請稍後再訪。
+        </div>
+        <section class="product-display-area">
+            <div class="product-grid" id="product-list">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div id="footer-dynamic"></div>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html> 

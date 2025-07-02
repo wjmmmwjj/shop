@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>線上商店管理介面</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div id="login-container">
+        <h2>管理員登入</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">用戶名:</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">密碼:</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit">登入</button>
+            <p id="login-message" style="color: red;"></p>
+        </form>
+    </div>
+
+    <div id="admin-panel-container" style="display: none;">
+        <header>
+            <h1>線上商店管理介面</h1>
+            <button id="logout-btn" style="float: right; margin-top: -40px;">登出</button>
+        </header>
+        <main>
+            <section id="website-status-section">
+                <h2>網站狀態</h2>
+                <p>目前狀態: <span id="website-status">載入中...</span></p>
+                <button id="toggle-website-status">切換網站狀態</button>
+            </section>
+
+            <section id="product-management-section">
+                <h2>商品管理</h2>
+                <h3>新增/更新商品</h3>
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    <label for="product-name">商品名稱:</label>
+                    <input type="text" id="product-name" required>
+                    <label for="product-description">商品描述:</label>
+                    <textarea id="product-description"></textarea>
+                    <label for="product-price">價格:</label>
+                    <input type="number" id="product-price" step="0.01" required>
+                    <label for="product-image-url">圖片 URL:</label>
+                    <input type="url" id="product-image-url">
+
+                    <label>預覽圖 URL:</label>
+                    <div id="thumbnail-urls-container">
+                        <!-- Dynamic thumbnail URL fields will be added here -->
+                    </div>
+                    <button type="button" id="add-thumbnail-url-field" class="secondary-btn">+ 新增預覽圖 URL</button>
+
+                    <label>商品規格:</label>
+                    <div id="specifications-container">
+                        <!-- Dynamic specification fields will be added here -->
+                    </div>
+                    <button type="button" id="add-specification-field" class="secondary-btn">+ 新增規格</button>
+
+                    <label for="product-stock">庫存:</label>
+                    <input type="number" id="product-stock" min="0" value="0" required>
+
+                    <label>商品標籤:</label>
+                    <div id="product-tags-container">
+                        <!-- Dynamic tag fields will be added here -->
+                    </div>
+                    <button type="button" id="add-product-tag-field" class="secondary-btn">+ 新增標籤</button>
+
+                    <button type="submit" id="submit-product-btn">新增商品</button>
+                    <button type="button" id="clear-form-btn">清除表單</button>
+                </form>
+
+                <h3>商品列表</h3>
+                <table id="product-list-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>名稱</th>
+                            <th>描述</th>
+                            <th>價格</th>
+                            <th>圖片</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Products will be loaded here -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="footer-settings-section">
+                <h2>頁尾設定</h2>
+                <form id="footer-settings-form">
+                    <label for="footer-contact">CONTACT US：</label>
+                    <textarea id="footer-contact" rows="2"></textarea>
+                    <label for="footer-legal">法律聲明：</label>
+                    <textarea id="footer-legal" rows="2"></textarea>
+                    <label for="footer-business">商家資訊：</label>
+                    <textarea id="footer-business" rows="2"></textarea>
+                    <label for="footer-company">公司資訊：</label>
+                    <textarea id="footer-company" rows="2"></textarea>
+                    <button type="submit">儲存頁尾</button>
+                </form>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 線上商店</p>
+        </footer>
+    </div>
+
+    <!-- 通知遮罩層 -->
+    <div id="notification-overlay" class="notification-overlay"></div>
+    
+    <!-- 自定義通知元件 -->
+    <div id="custom-notification" class="custom-notification">
+        <div class="notification-content">
+            <i class="notification-icon fas fa-check-circle"></i>
+            <p id="notification-message"></p>
+            <button id="notification-close" class="notification-close">&times;</button>
+        </div>
+        <div class="notification-actions">
+            <button id="notification-confirm" class="notification-btn primary-btn">確定</button>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html> 

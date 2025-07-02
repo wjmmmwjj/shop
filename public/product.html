@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品詳細頁面</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Reusing main styles for header/footer -->
+    <link rel="stylesheet" href="product.css"> <!-- Specific styles for product page -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="top-bar">
+            <div class="back-button-container">
+                <a href="#" onclick="history.back(); return false;">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="language-currency">
+                <span>English</span>
+                <span>NT$</span>
+            </div>
+            <div class="user-actions">
+                <i class="fas fa-user"></i>
+                <a href="checkout.html" class="cart-icon-container">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                </a>
+                <i class="fas fa-comment"></i>
+                <div class="search-box">
+                    <input type="text" id="instant-search-input" placeholder="Search Products">
+                    <i class="fas fa-search"></i>
+                    <div id="search-suggestions" class="search-suggestions"></div>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="/"><i class="fas fa-home"></i></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">VIP ></a></li>
+                <li><a href="#">vvip ></a></li>
+                <li><a href="#">vvvip></a></li>
+                <li><a href="#">vvvvvip ></a></li>
+                <li><a href="#">vvvvvvvip ></a></li>
+                <li><a href="#">vvvvvvvvip ></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="product-detail-main">
+        <div class="product-container">
+            <div class="product-image-gallery">
+                <img id="main-product-image" src="https://via.placeholder.com/600x400?text=Product+Image" alt="Product Image">
+            </div>
+            <div class="product-info">
+                <h1 id="product-title">Porsche.GT3RS 【Limited Edition】</h1>
+                <div id="product-tags"></div>
+                <p class="product-stock"><span id="stock-left">5</span> Left</p>
+                <p class="product-price"><span id="usdt-price">USDT 40</span> / <span id="nt-price">NT1200</span></p>
+                
+                <div class="thumbnail-previews" id="thumbnail-previews">
+                    <!-- Thumbnails will be dynamically loaded here by JavaScript -->
+                </div>
+
+                <div class="quantity-selector">
+                    <button id="decrease-quantity">-</button>
+                    <span id="product-quantity">1</span>
+                    <button id="increase-quantity">+</button>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="add-to-cart-btn"><i class="fas fa-cart-plus"></i> ADD TO CART</button>
+                    <button class="buy-now-btn"><i class="fas fa-bag-shopping"></i> BUY NOW</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-specifications-display" id="product-specifications-display">
+            <h3>商品規格</h3>
+            <div id="specifications-list"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <div class="footer-column">
+                <h3>ABOUT US</h3>
+                <ul>
+                    <li><a href="#">商店介紹</a></li>
+                    <li><a href="#">品牌故事</a></li>
+                    <li><a href="#">店面資訊</a></li>
+                    <li><a href="#">會員權益</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>SERVICE</h3>
+                <ul>
+                    <li><a href="#">運送服務方式</a></li>
+                    <li><a href="#">付款服務方式</a></li>
+                    <li><a href="#">退換貨政策</a></li>
+                    <li><a href="#">隱私權政策</a></li>
+                    <li><a href="#">條款與細則</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>CONTACT US</h3>
+                <p>EMAIL: s122860811@gmail.com</p>
+                <p>台中店｜Taichung: 台中市北區錦新街18號</p>
+                <p>台北店｜Taipei: 台北市萬華區武昌街二段50巷16號1樓</p>
+                <p>台南店｜Tainan: 台南市中西區萬昌街133-1號</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Powered by SHOPLINE</p>
+            <div class="social-links">
+                <!-- Social media icons would go here -->
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 通知遮罩層 -->
+    <div id="notification-overlay" class="notification-overlay"></div>
+    
+    <!-- 自定義通知元件 -->
+    <div id="custom-notification" class="custom-notification">
+        <div class="notification-content">
+            <i class="notification-icon fas fa-check-circle"></i>
+            <p id="notification-message"></p>
+            <button id="notification-close" class="notification-close">&times;</button>
+        </div>
+        <div class="notification-actions">
+            <button id="continue-shopping" class="notification-btn secondary-btn">繼續購物</button>
+            <button id="go-to-cart" class="notification-btn primary-btn">前往購物車</button>
+        </div>
+    </div>
+    
+    <script src="product.js"></script>
+</body>
+</html> 

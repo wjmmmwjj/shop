@@ -1,0 +1,388 @@
+/* public/product.css */
+
+.product-detail-main {
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 40px;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: flex-start; /* Align items to the top */
+}
+
+.product-image-gallery {
+    flex: 0 0 450px; /* Fixed width for the image gallery */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */ /* Removed to allow left alignment of image */
+}
+
+#main-product-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: none;
+    cursor: default;
+}
+
+.thumbnail-previews {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Add margin to separate from quantity selector */
+}
+
+.thumbnail-wrapper {
+    display: inline-block;
+    position: relative;
+}
+
+.thumbnail-item {
+    transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+    cursor: zoom-in;
+    object-fit: contain !important;
+    z-index: 1;
+    transform-origin: center center;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+.thumbnail-wrapper:hover .thumbnail-item {
+    position: relative;
+    z-index: 99;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    background: #fff;
+    border-radius: 12px;
+    opacity: 1;
+    transform: scale(4);
+    object-fit: contain !important;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.thumbnail-item:not(:hover) {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.product-info {
+    flex: 1; /* Allow product info to take remaining space */
+    padding-top: 0; /* Adjust padding as needed, was 20px */
+}
+
+#product-title {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.product-stock {
+    background-color: #f0f0f0;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.product-stock span {
+    font-weight: bold;
+    color: #333;
+}
+
+.product-price {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #000; /* Black as per image */
+    margin-bottom: 30px;
+}
+
+.product-price #usdt-price {
+    color: #555; /* Slightly lighter for USDT */
+    font-weight: normal;
+}
+
+.product-price #nt-price {
+    color: #333;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.quantity-selector button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.quantity-selector button:hover {
+    background-color: #e0e0e0;
+}
+
+#product-quantity {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    margin: 0 10px;
+    font-size: 1.1em;
+    min-width: 30px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.action-buttons button {
+    flex: 1; /* Make buttons take equal width */
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn {
+    background-color: #4CAF50; /* Green for add to cart */
+    color: white;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #45a049;
+}
+
+.buy-now-btn {
+    background-color: #333; /* Darker for buy now */
+    color: white;
+}
+
+.buy-now-btn:hover {
+    background-color: #111;
+}
+
+.product-specifications-display {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.product-specifications-display h3 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.specification-item {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee; /* Light dashed line for separation */
+    align-items: center;
+}
+
+.specification-item:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+.spec-key {
+    flex: 0 0 120px; /* Fixed width for the key */
+    font-weight: bold;
+    color: #777;
+}
+
+.spec-value {
+    flex: 1; /* Take remaining space */
+    color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .product-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-image-gallery,
+    .product-info {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .product-info {
+        padding-top: 0;
+    }
+
+    .thumbnail-previews {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .thumbnail-item {
+        width: 80px;
+        height: 80px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+}
+
+/* 自定義通知元件樣式 */
+.custom-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    visibility: hidden;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.custom-notification.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.notification-icon {
+    font-size: 24px;
+    color: #4CAF50;
+    margin-right: 15px;
+}
+
+.notification-content p {
+    flex: 1;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #777;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+    transition: color 0.3s;
+}
+
+.notification-close:hover {
+    color: #333;
+}
+
+.notification-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.notification-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.notification-btn:hover {
+    transform: translateY(-2px);
+}
+
+.primary-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: #45a049;
+}
+
+.secondary-btn {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.secondary-btn:hover {
+    background-color: #e5e5e5;
+}
+
+/* 遮罩背景 */
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.notification-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.product-tag-box {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 2px 10px;
+    margin-right: 6px;
+    background: #f7f7f7;
+    color: #333;
+    font-size: 0.95em;
+    margin-bottom: 2px;
+    vertical-align: middle;
+} 

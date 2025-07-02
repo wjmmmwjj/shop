@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>結帳頁面</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Reusing main styles for header/footer -->
+    <link rel="stylesheet" href="checkout.css"> <!-- Specific styles for checkout page -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="top-bar">
+            <div class="language-currency">
+                <span>English</span>
+                <span>NT$</span>
+            </div>
+            <div class="user-actions">
+                <i class="fas fa-user"></i>
+                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-comment"></i>
+                <div class="search-box">
+                    <input type="text" placeholder="Search Products">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="/"><i class="fas fa-home"></i></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">VIP Only ></a></li>
+                <li><a href="#">Benz-AMG ></a></li>
+                <li><a href="#">M.Performance ></a></li>
+                <li><a href="#">Audi.RS ></a></li>
+                <li><a href="#">Remaster ></a></li>
+                <li><a href="#">Limited Edition ></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="checkout-main">
+        <div class="checkout-progress">
+            <div class="progress-step active">
+                <div class="step-number">1</div>
+                <div class="step-name">Shopping Cart</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="step-number">2</div>
+                <div class="step-name">Fill Information</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="step-number">3</div>
+                <div class="step-name">Order Confirmation</div>
+            </div>
+        </div>
+
+        <div class="shopping-cart-section">
+            <h2>Shopping Cart (<span id="cart-item-count">2</span> items) <i class="fas fa-share-alt"></i></h2>
+            <div class="cart-items-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Information</th>
+                            <th>Promotions</th>
+                            <th>Unit Price</th>
+                            <th>QTY</th>
+                            <th>Subtotal</th>
+                            <th></th> <!-- For remove button -->
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items-body">
+                        <!-- Cart items will be loaded here by JavaScript -->
+                        <tr>
+                            <td class="product-info-cell">
+                                <img src="https://via.placeholder.com/80" alt="Product 1">
+                                <div>
+                                    <p>SIMON PUNK Project-SS25-VB02 聖手煥黑 BOXY</p>
+                                    <p>水洗 TEE</p>
+                                    <p>S</p>
+                                </div>
+                            </td>
+                            <td></td>
+                            <td>NT$980</td>
+                            <td class="quantity-control">
+                                <button class="decrease-qty">-</button>
+                                <span>1</span>
+                                <button class="increase-qty">+</button>
+                            </td>
+                            <td>NT$980</td>
+                            <td><i class="fas fa-times remove-item"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="product-info-cell">
+                                <img src="https://via.placeholder.com/80" alt="Product 2">
+                                <div>
+                                    <p>ACR 多口袋 擦膝 迷彩 七分 短褲</p>
+                                    <p>線條數控紗</p>
+                                    <p>S</p>
+                                    <p class="promotion-text">品牌預購約等30天不含假日</p>
+                                </div>
+                            </td>
+                            <td></td>
+                            <td>NT$980</td>
+                            <td class="quantity-control">
+                                <button class="decrease-qty">-</button>
+                                <span>1</span>
+                                <button class="increase-qty">+</button>
+                            </td>
+                            <td>NT$980</td>
+                            <td><i class="fas fa-times remove-item"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="checkout-details">
+            <div class="delivery-payment-section">
+                <h2>Select Delivery & Payment Method</h2>
+                <div class="form-group">
+                    <label for="shipping-destination">Shipping Destination</label>
+                    <select id="shipping-destination">
+                        <option value="taiwan">Taiwan</option>
+                        <!-- Other options -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="delivery-method">Delivery Method</label>
+                    <select id="delivery-method">
+                        <option value="tainan-store">台南店 店取 (台南市中西區萬昌街133-1號)</option>
+                        <!-- Other options -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="payment-method">Payment Method</label>
+                    <select id="payment-method">
+                        <option value="line-pay">LINE Pay</option>
+                        <!-- Other options -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="order-summary-section">
+                <h2>Order Summary</h2>
+                <div class="summary-row">
+                    <span>Item Subtotal:</span>
+                    <span id="item-subtotal">NT$2,159</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery Fee:</span>
+                    <span id="delivery-fee">Free</span>
+                </div>
+                <div class="summary-links">
+                    <a href="#">Apply A Coupon Code</a>
+                    <a href="#">Apply An Affiliate Code</a>
+                </div>
+                <div class="summary-total">
+                    <span>Total:</span>
+                    <span id="order-total">NT$2,159</span>
+                </div>
+                <button class="proceed-to-checkout-btn">Proceed to Checkout</button>
+            </div>
+        </div>
+        <p class="line-pay-note">本區不支援 LINE Pay 付款，不歡迎使用 LINE Pay 進行結帳</p>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <div class="footer-column">
+                <h3>ABOUT US</h3>
+                <ul>
+                    <li><a href="#">商店介紹</a></li>
+                    <li><a href="#">品牌故事</a></li>
+                    <li><a href="#">店面資訊</a></li>
+                    <li><a href="#">會員權益</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>SERVICE</h3>
+                <ul>
+                    <li><a href="#">運送服務方式</a></li>
+                    <li><a href="#">付款服務方式</a></li>
+                    <li><a href="#">退換貨政策</a></li>
+                    <li><a href="#">隱私權政策</a></li>
+                    <li><a href="#">條款與細則</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>CONTACT US</h3>
+                <p>EMAIL: s122860811@gmail.com</p>
+                <p>台中店｜Taichung: 台中市北區錦新街18號</p>
+                <p>台北店｜Taipei: 台北市萬華區武昌街二段50巷16號1樓</p>
+                <p>台南店｜Tainan: 台南市中西區萬昌街133-1號</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Powered by SHOPLINE</p>
+            <div class="social-links">
+                <!-- Social media icons would go here -->
+            </div>
+        </div>
+    </footer>
+
+    <!-- 通知遮罩層 -->
+    <div id="notification-overlay" class="notification-overlay"></div>
+    
+    <!-- 自定義通知元件 -->
+    <div id="custom-notification" class="custom-notification">
+        <div class="notification-content">
+            <i class="notification-icon fas fa-check-circle"></i>
+            <p id="notification-message"></p>
+            <button id="notification-close" class="notification-close">&times;</button>
+        </div>
+        <div class="notification-actions">
+            <button id="notification-confirm" class="notification-btn primary-btn">確定</button>
+        </div>
+    </div>
+
+    <script src="checkout.js"></script>
+</body>
+</html> 

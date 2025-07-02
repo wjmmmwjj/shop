@@ -1,0 +1,327 @@
+/* public/admin.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+section:last-child {
+    border-bottom: none;
+}
+
+h2, h3 {
+    color: #0056b3;
+}
+
+/* Website Status Section */
+#website-status-section p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+#website-status {
+    font-weight: bold;
+    color: #28a745;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button#toggle-website-status.paused {
+    background-color: #dc3545;
+}
+
+button#toggle-website-status.paused:hover {
+    background-color: #c82333;
+}
+
+/* Product Form */
+#product-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#product-form input[type="text"],
+#product-form input[type="number"],
+#product-form input[type="url"],
+#product-form textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#product-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Styling for dynamic input groups (specifications and thumbnail URLs) */
+.specification-item,
+.thumbnail-url-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between input and button */
+    margin-bottom: 15px;
+}
+
+.specification-item input,
+.thumbnail-url-item input {
+    flex-grow: 1; /* Allow input to take available space */
+    margin-bottom: 0; /* Override default margin-bottom */
+}
+
+.remove-field-btn {
+    background-color: #dc3545; /* Red color for remove button */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    border: none; /* Remove default button border */
+}
+
+.remove-field-btn:hover {
+    background-color: #c82333;
+}
+
+/* Ensure the + buttons have margin below them */
+button#add-specification-field,
+button#add-thumbnail-url-field {
+    margin-bottom: 20px;
+}
+
+#product-form button {
+    margin-right: 10px;
+}
+
+#submit-product-btn {
+    background-color: #28a745;
+}
+
+#submit-product-btn:hover {
+    background-color: #218838;
+}
+
+#clear-form-btn {
+    background-color: #6c757d;
+}
+
+#clear-form-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Product List Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+td img {
+    max-width: 80px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
+td button {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+
+.edit-btn {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.edit-btn:hover {
+    background-color: #e0a800;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    color: #777;
+    font-size: 0.9em;
+    border-top: 1px solid #eee;
+}
+
+/* 產品標籤輸入樣式 */
+.product-tag-item {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.product-tag-item input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.product-tag-item .remove-field-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-tag-item .remove-field-btn:hover {
+  background-color: #c82333;
+}
+
+#add-product-tag-field {
+  margin-bottom: 20px;
+}
+
+/* 通知遮罩層 */
+.notification-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+/* 自定義通知元件 */
+.custom-notification {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    min-width: 300px;
+    max-width: 80%;
+}
+
+.notification-content {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.notification-icon {
+    font-size: 48px;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+
+.notification-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.notification-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.notification-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.primary-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: #45a049;
+} 

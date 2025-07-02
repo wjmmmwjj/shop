@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>進階搜尋</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="search.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="search-container">
+    <div class="search-header">
+      <a href="/" class="home-icon"><i class="fas fa-home"></i></a>
+      <a href="index.html" class="back-button">&lt; 返回首頁</a>
+    </div>
+    <h2>進階搜尋產品</h2>
+    <form id="advanced-search-form">
+      <label for="search-name">產品名稱：</label>
+      <input type="text" id="search-name" name="search-name">
+      <label for="search-tag">標籤：</label>
+      <select id="search-tag" name="search-tag">
+        <option value="">--請選擇--</option>
+      </select>
+      <button type="submit">搜尋</button>
+    </form>
+    <div id="search-results"></div>
+  </div>
+  <script src="search.js"></script>
+</body>
+</html> 
