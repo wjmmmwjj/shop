@@ -102,6 +102,49 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
+    // 動態載入分類並渲染於 #category-nav
+    let selectedCategories = [];
+    async function renderCategoryNav() {
+        const res = await fetch('/api/tags');
+        const tags = await res.json();
+        const nav = document.getElementById('category-nav');
+        nav.innerHTML = '';
+        tags.forEach(tag => {
+            const li = document.createElement('li');
+            li.style.display = 'inline-block';
+            li.style.marginRight = '12px';
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = tag;
+            a.className = 'category-link';
+            a.dataset.tag = tag;
+            a.onclick = function(e) {
+                e.preventDefault();
+                // 多選切換
+                if (selectedCategories.includes(tag)) {
+                    selectedCategories = selectedCategories.filter(t => t !== tag);
+                    a.classList.remove('active');
+                } else {
+                    selectedCategories.push(tag);
+                    a.classList.add('active');
+                }
+                filterProductsByCategory();
+            };
+            li.appendChild(a);
+            nav.appendChild(li);
+        });
+    }
+
+    // 過濾顯示商品
+    function filterProductsByCategory() {
+        if (selectedCategories.length === 0) {
+            displayProducts(window.allProducts || []);
+            return;
+        }
+        const filtered = (window.allProducts || []).filter(p => Array.isArray(p.tags) && p.tags.some(tag => selectedCategories.includes(tag)));
+        displayProducts(filtered, `分類：${selectedCategories.join(', ')}`);
+    }
+
     // 加載並顯示所有產品
     async function loadProducts() {
         try {
@@ -129,6 +172,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // 過濾只顯示上架商品
             products = products.filter(product => product.isActive === 1 || product.isActive === undefined);
             
+            window.allProducts = products;
             displayProducts(products);
         } catch (error) {
             console.error('載入產品時發生錯誤:', error);
@@ -169,6 +213,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Simulate sold out for demonstration (you can remove this in a real scenario)
             const isSoldOut = product.name.toLowerCase().includes('sold out'); // Example condition
 
+            console.log(`Product: ${product.name}, Tags:`, product.tags);
             productItem.innerHTML = `
                 <a href="product.html?id=${product.id}" class="product-link">
                     ${isSoldOut ? '<div class="sold-out-overlay">SOLD OUT</div>' : ''}
@@ -312,4 +357,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } catch (e) {}
     })();
+
+    // 頁面初始化時載入分類
+    renderCategoryNav();
 }); 

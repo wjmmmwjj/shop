@@ -166,7 +166,7 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
+    display: flex; /* 重新顯示分類導航 */
 }
 
 .main-nav .nav-links li {

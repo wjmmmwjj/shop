@@ -67,6 +67,7 @@ try {
     let hasThumbnailUrlsColumn = false;
     let hasStockColumn = false;
     let hasIsActiveColumn = false;
+    let hasSearchTagsColumn = false;
     for (const column of columns) {
         if (column.name === 'specifications') {
             hasSpecificationsColumn = true;
@@ -79,6 +80,9 @@ try {
         }
         if (column.name === 'isActive') {
             hasIsActiveColumn = true;
+        }
+        if (column.name === 'searchTags') {
+            hasSearchTagsColumn = true;
         }
     }
 
@@ -97,6 +101,10 @@ try {
     if (!hasIsActiveColumn) {
         db.exec(`ALTER TABLE products ADD COLUMN isActive INTEGER DEFAULT 1;`);
         console.log('Added isActive column to products table.');
+    }
+    if (!hasSearchTagsColumn) {
+        db.exec(`ALTER TABLE products ADD COLUMN searchTags TEXT;`);
+        console.log('Added searchTags column to products table.');
     }
 } catch (error) {
     console.error('Error checking or adding columns to products table:', error);
@@ -190,14 +198,14 @@ app.get('/api/products/search', (req, res) => {
         // 確保所有產品的標籤都正確解析
         products = products.map(p => {
             let parsedTags = [];
+            let parsedSearchTags = [];
             if (p.tags) {
-                try { 
-                    parsedTags = JSON.parse(p.tags); 
-                } catch (e) { 
-                    console.error(`產品 ${p.id} 的標籤解析錯誤:`, e);
-                }
+                try { parsedTags = JSON.parse(p.tags); } catch (e) { console.error(`產品 ${p.id} 的標籤解析錯誤:`, e); }
             }
-            return { ...p, tags: parsedTags };
+            if (p.searchTags) {
+                try { parsedSearchTags = JSON.parse(p.searchTags); } catch (e) { console.error(`產品 ${p.id} 的查詢標籤解析錯誤:`, e); }
+            }
+            return { ...p, tags: parsedTags, searchTags: parsedSearchTags };
         });
         
         // 改用「或」邏輯：使用兩個獨立的篩選器，然後合併結果
@@ -216,14 +224,8 @@ app.get('/api/products/search', (req, res) => {
         if (tag) {
             tagFilteredProducts = products.filter(p => {
                 // 確保標籤是陣列
-                if (!p.tags || !Array.isArray(p.tags)) {
-                    return false;
-                }
-                
-                // 比對每個標籤是否包含搜尋詞
-                return p.tags.some(t => 
-                    typeof t === 'string' && t.toLowerCase().includes(tag.toLowerCase())
-                );
+                const allTags = [ ...(Array.isArray(p.tags) ? p.tags : []), ...(Array.isArray(p.searchTags) ? p.searchTags : []) ];
+                return allTags.some(t => typeof t === 'string' && t.toLowerCase().includes(tag.toLowerCase()));
             });
             console.log(`標籤過濾後找到 ${tagFilteredProducts.length} 個產品`);
         }
@@ -260,20 +262,22 @@ app.get('/api/products/search', (req, res) => {
 
 // Product API Endpoints
 app.post('/api/products', authenticateAdmin, (req, res) => {
-  const { name, description, price, imageUrl, stock, isActive, specifications, thumbnailUrls, tags } = req.body;
+  const { name, description, price, imageUrl, stock, isActive, specifications, thumbnailUrls, tags, searchTags } = req.body;
   if (!name || !price) {
     return res.status(400).json({ message: 'Product name and price are required.' });
   }
   try {
     const stockNumber = (typeof stock === 'number') ? stock : parseInt(stock, 10);
     const isActiveValue = (typeof isActive === 'number') ? isActive : (isActive === undefined ? 1 : parseInt(isActive, 10));
-    const stmt = db.prepare('INSERT INTO products (name, description, price, imageUrl, stock, isActive, specifications, thumbnailUrls, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    const stmt = db.prepare('INSERT INTO products (name, description, price, imageUrl, stock, isActive, specifications, thumbnailUrls, tags, searchTags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     const info = stmt.run(name, description, price, imageUrl, stockNumber, isActiveValue,
         specifications ? JSON.stringify(specifications) : null,
         thumbnailUrls ? JSON.stringify(thumbnailUrls) : null,
-        tags ? JSON.stringify(tags) : null
+        tags ? JSON.stringify(tags) : null,
+        searchTags ? JSON.stringify(searchTags) : null
     );
-    res.status(201).json({ id: info.lastInsertRowid, name, description, price, imageUrl, stock: stockNumber, isActive: isActiveValue, specifications, thumbnailUrls, tags });
+    console.log('後端收到商品資料:', req.body);
+    res.status(201).json({ id: info.lastInsertRowid, name, description, price, imageUrl, stock: stockNumber, isActive: isActiveValue, specifications, thumbnailUrls, tags, searchTags });
   } catch (error) {
     res.status(500).json({ message: 'Error adding product', error: error.message });
   }
@@ -316,6 +320,17 @@ app.get('/api/products', (req, res) => {
             }
         } else {
             product.tags = [];
+        }
+        
+        // 處理查詢標籤 (searchTags)
+        if (product.searchTags) {
+            try {
+                product.searchTags = JSON.parse(product.searchTags);
+            } catch (e) {
+                product.searchTags = [];
+            }
+        } else {
+            product.searchTags = [];
         }
         
         return product;
@@ -368,6 +383,17 @@ app.get('/api/products/:id', (req, res) => {
           product.tags = [];
       }
       
+      // 處理查詢標籤 (searchTags)
+      if (product.searchTags) {
+          try {
+              product.searchTags = JSON.parse(product.searchTags);
+          } catch (e) {
+              product.searchTags = [];
+          }
+      } else {
+          product.searchTags = [];
+      }
+      
       res.json(product);
     } else {
       res.status(404).json({ message: 'Product not found.' });
@@ -379,18 +405,19 @@ app.get('/api/products/:id', (req, res) => {
 
 app.put('/api/products/:id', authenticateAdmin, (req, res) => {
   const { id } = req.params;
-  const { name, description, price, imageUrl, stock, isActive, specifications, thumbnailUrls, tags } = req.body;
+  const { name, description, price, imageUrl, stock, isActive, specifications, thumbnailUrls, tags, searchTags } = req.body;
   if (!name || !price) {
     return res.status(400).json({ message: 'Product name and price are required.' });
   }
   try {
     const stockNumber = (typeof stock === 'number') ? stock : parseInt(stock, 10);
-    const isActiveValue = (typeof isActive === 'number') ? isActive : (isActive === undefined ? 1 : parseInt(isActive, 10));
-    const stmt = db.prepare('UPDATE products SET name = ?, description = ?, price = ?, imageUrl = ?, stock = ?, isActive = ?, specifications = ?, thumbnailUrls = ?, tags = ? WHERE id = ?');
+    const isActiveValue = 1; // 永遠預設為 1
+    const stmt = db.prepare('UPDATE products SET name = ?, description = ?, price = ?, imageUrl = ?, stock = ?, isActive = ?, specifications = ?, thumbnailUrls = ?, tags = ?, searchTags = ? WHERE id = ?');
     const info = stmt.run(name, description, price, imageUrl, stockNumber, isActiveValue,
         specifications ? JSON.stringify(specifications) : null,
         thumbnailUrls ? JSON.stringify(thumbnailUrls) : null,
         tags ? JSON.stringify(tags) : null,
+        searchTags ? JSON.stringify(searchTags) : null,
         id
     );
     if (info.changes === 0) {

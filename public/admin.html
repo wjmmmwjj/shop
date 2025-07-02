@@ -64,11 +64,14 @@
                     <label for="product-stock">庫存:</label>
                     <input type="number" id="product-stock" min="0" value="0" required>
 
-                    <label>商品標籤:</label>
-                    <div id="product-tags-container">
-                        <!-- Dynamic tag fields will be added here -->
+                    <label>商品標籤（查詢）:</label>
+                    <div id="search-tags-container"></div>
+                    <button type="button" id="add-search-tag-field" class="secondary-btn">+ 新增查詢標籤</button>
+
+                    <label>商品標籤（分類）:</label>
+                    <div id="product-tags-checkboxes">
+                        <!-- 分類多選 checkbox 由 JS 動態產生 -->
                     </div>
-                    <button type="button" id="add-product-tag-field" class="secondary-btn">+ 新增標籤</button>
 
                     <button type="submit" id="submit-product-btn">新增商品</button>
                     <button type="button" id="clear-form-btn">清除表單</button>
@@ -106,6 +109,14 @@
                     <textarea id="footer-company" rows="2"></textarea>
                     <button type="submit">儲存頁尾</button>
                 </form>
+            </section>
+
+            <!-- 分類管理區塊 -->
+            <section id="category-management-section">
+                <h3>分類管理</h3>
+                <div id="category-list"></div>
+                <input type="text" id="new-category-input" placeholder="新增分類名稱">
+                <button type="button" id="add-category-btn">新增分類</button>
             </section>
         </main>
         <footer>

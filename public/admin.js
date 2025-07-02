@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearFormBtn = document.getElementById('clear-form-btn');
     const productListTableBody = document.querySelector('#product-list-table tbody');
     const productStockInput = document.getElementById('product-stock');
-    const productActiveInput = document.getElementById('product-active');
 
     // 通知元件相關元素
     const notificationOverlay = document.getElementById('notification-overlay');
@@ -42,6 +41,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const footerBusinessInput = document.getElementById('footer-business');
     const footerCompanyInput = document.getElementById('footer-company');
     const footerSettingsForm = document.getElementById('footer-settings-form');
+
+    // 動態增刪查詢標籤欄位
+    const searchTagsContainer = document.getElementById('search-tags-container');
+    console.log('searchTagsContainer:', searchTagsContainer);
+    const addSearchTagFieldBtn = document.getElementById('add-search-tag-field');
+    function addSearchTagField(value = '') {
+        const div = document.createElement('div');
+        div.className = 'search-tag-item';
+        div.style.display = 'flex';
+        div.style.alignItems = 'center';
+        div.style.marginBottom = '6px';
+        div.innerHTML = `<input type="text" class="search-tag-input" placeholder="輸入查詢標籤" value="${value}">
+            <button type="button" class="remove-field-btn" style="margin-left:6px;">X</button>`;
+        div.querySelector('.remove-field-btn').onclick = () => searchTagsContainer.removeChild(div);
+        searchTagsContainer.appendChild(div);
+    }
+    if (addSearchTagFieldBtn) addSearchTagFieldBtn.onclick = () => addSearchTagField();
 
     const getAuthHeaders = () => {
         const token = localStorage.getItem('adminToken');
@@ -259,29 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
         addSpecificationField();
     });
 
-    // Helper function to add a product tag input field
-    const addProductTagField = (tag = '') => {
-        const tagDiv = document.createElement('div');
-        tagDiv.classList.add('product-tag-item');
-        tagDiv.innerHTML = `
-            <input type="text" class="product-tag-input" placeholder="輸入標籤" value="${tag}">
-            <button type="button" class="remove-field-btn">X</button>
-        `;
-        productTagsContainer.appendChild(tagDiv);
-
-        tagDiv.querySelector('.remove-field-btn').addEventListener('click', () => {
-            productTagsContainer.removeChild(tagDiv);
-        });
-    };
-
-    // Add initial product tag field
-    addProductTagField();
-
-    // Event listener for adding new product tag fields
-    addProductTagFieldBtn.addEventListener('click', () => {
-        addProductTagField();
-    });
-
     // Helper function to add a thumbnail URL input field
     const addThumbnailUrlField = (url = '') => {
         const urlDiv = document.createElement('div');
@@ -307,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Handle product form submission (Add/Update)
     productForm.addEventListener('submit', async (event) => {
+        console.log('searchTagsContainer submit:', searchTagsContainer);
         event.preventDefault();
 
         const id = productIdInput.value;
@@ -315,7 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const price = parseFloat(productPriceInput.value);
         const imageUrl = productImageUrlInput.value;
         const stock = parseInt(productStockInput.value, 10);
-        const isActive = productActiveInput.checked ? 1 : 0;
 
         if (!name || isNaN(price)) {
             showNotification('商品名稱和價格為必填項。');
@@ -343,14 +336,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 獲取輸入的標籤
-        const tags = [];
-        document.querySelectorAll('.product-tag-item .product-tag-input').forEach(input => {
-            if (input.value.trim() !== '') {
-                tags.push(input.value.trim());
-            }
-        });
+        const tags = Array.from(document.querySelectorAll('.product-tag-checkbox:checked')).map(cb => cb.value);
 
-        const productData = { name, description, price, imageUrl, stock, isActive, specifications, thumbnailUrls, tags };
+        const searchTags = Array.from(document.querySelectorAll('.search-tag-input')).map(input => input.value.trim()).filter(Boolean);
+
+        const productData = { name, description, price, imageUrl, stock, specifications, thumbnailUrls, tags, searchTags };
+
+        console.log('送出商品資料:', productData);
 
         try {
             let response;
@@ -380,9 +372,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 thumbnailUrlsContainer.innerHTML = ''; // Clear dynamic thumbnail URLs
                 addThumbnailUrlField(); // Add back one empty field
                 productTagsContainer.innerHTML = ''; // Clear dynamic tags
-                addProductTagField(); // Add back one empty field
+                loadCategoriesAndRenderCheckboxes(); // Reset tags to empty
                 submitProductBtn.textContent = '新增商品';
                 fetchProducts(); // Refresh product list
+                if (searchTagsContainer) {
+                    searchTagsContainer.innerHTML = '';
+                    addSearchTagField();
+                }
             } else if (response.status === 401 || response.status === 403) {
                 showNotification('權限不足或登入已過期，請重新登入。', () => {
                     localStorage.removeItem('adminToken');
@@ -406,8 +402,12 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbnailUrlsContainer.innerHTML = ''; // Clear dynamic thumbnail URLs
         addThumbnailUrlField(); // Add back one empty field
         productTagsContainer.innerHTML = ''; // Clear dynamic tags
-        addProductTagField(); // Add back one empty field
+        loadCategoriesAndRenderCheckboxes();
         submitProductBtn.textContent = '新增商品';
+        if (searchTagsContainer) {
+            searchTagsContainer.innerHTML = '';
+            addSearchTagField();
+        }
     });
 
     // Handle Edit/Delete buttons on product list
@@ -426,7 +426,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     productPriceInput.value = product.price;
                     productImageUrlInput.value = product.imageUrl || '';
                     productStockInput.value = (typeof product.stock === 'number') ? product.stock : 0;
-                    // productActiveInput.checked = (product.isActive !== 0); // 已移除
                     // Clear existing specifications and populate with fetched data
                     specificationsContainer.innerHTML = '';
                     if (product.specifications) {
@@ -446,16 +445,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         addThumbnailUrlField(); // Add an empty field if no thumbnail URLs
                     }
                     // 設定標籤值
-                    productTagsContainer.innerHTML = '';
-                    if (product.tags && product.tags.length > 0) {
-                        product.tags.forEach(tag => {
-                            addProductTagField(tag);
-                        });
-                    } else {
-                        addProductTagField(); // Add an empty field if no tags
-                    }
+                    loadCategoriesAndRenderCheckboxes(product.tags || []);
                     submitProductBtn.textContent = '更新商品';
                     window.scrollTo(0, 0); // Scroll to top to show the form
+                    if (searchTagsContainer) {
+                        searchTagsContainer.innerHTML = '';
+                        if (product.searchTags && product.searchTags.length > 0) {
+                            product.searchTags.forEach(tag => addSearchTagField(tag));
+                        } else {
+                            addSearchTagField();
+                        }
+                    }
                 } else if (response.status === 401 || response.status === 403) {
                     showNotification('權限不足或登入已過期，請重新登入。', () => {
                         localStorage.removeItem('adminToken');
@@ -562,4 +562,77 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 1. 動態載入分類並渲染多選 checkbox
+    async function loadCategoriesAndRenderCheckboxes(selectedTags = []) {
+        const res = await fetch('/api/tags');
+        const tags = await res.json();
+        const container = document.getElementById('product-tags-checkboxes');
+        container.innerHTML = '';
+        tags.forEach(tag => {
+            const id = `tag-checkbox-${tag}`;
+            const label = document.createElement('label');
+            label.style.marginRight = '12px';
+            label.innerHTML = `<input type="checkbox" id="${id}" value="${tag}" class="product-tag-checkbox"> ${tag}`;
+            if (selectedTags.includes(tag)) label.querySelector('input').checked = true;
+            container.appendChild(label);
+        });
+    }
+
+    // 2. 分類管理區塊
+    async function renderCategoryList() {
+        const res = await fetch('/api/tags');
+        const tags = await res.json();
+        const listDiv = document.getElementById('category-list');
+        listDiv.innerHTML = '';
+        tags.forEach(tag => {
+            const tagDiv = document.createElement('div');
+            tagDiv.style.display = 'inline-block';
+            tagDiv.style.marginRight = '10px';
+            tagDiv.style.marginBottom = '6px';
+            tagDiv.innerHTML = `${tag} <button data-tag="${tag}" class="delete-category-btn">刪除</button>`;
+            listDiv.appendChild(tagDiv);
+        });
+        // 綁定刪除事件
+        listDiv.querySelectorAll('.delete-category-btn').forEach(btn => {
+            btn.onclick = async function() {
+                if (confirm(`確定要刪除分類「${btn.dataset.tag}」？`)) {
+                    const res = await fetch(`/api/tags/${encodeURIComponent(btn.dataset.tag)}`, { method: 'DELETE', headers: getAuthHeaders() });
+                    if (res.ok) {
+                        await renderCategoryList();
+                        await loadCategoriesAndRenderCheckboxes();
+                    } else {
+                        const data = await res.json().catch(() => ({}));
+                        alert('刪除分類失敗: ' + (data.message || res.status));
+                    }
+                }
+            };
+        });
+    }
+
+    document.getElementById('add-category-btn').onclick = async function() {
+        const input = document.getElementById('new-category-input');
+        const tag = input.value.trim();
+        if (!tag) return;
+        const res = await fetch('/api/tags', { method: 'POST', headers: getAuthHeaders(), body: JSON.stringify({ tag }) });
+        if (res.ok) {
+            input.value = '';
+            await renderCategoryList();
+            await loadCategoriesAndRenderCheckboxes();
+        } else {
+            const data = await res.json().catch(() => ({}));
+            alert('新增分類失敗: ' + (data.message || res.status));
+        }
+    };
+
+    // 4. 編輯商品時自動勾選分類
+    async function fillProductForm(product) {
+        // ... 其他欄位 ...
+        await loadCategoriesAndRenderCheckboxes(product.tags || []);
+        // ... existing code ...
+    }
+
+    // 初始化時載入分類
+    renderCategoryList();
+    loadCategoriesAndRenderCheckboxes();
 }); 

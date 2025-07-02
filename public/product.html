@@ -38,13 +38,8 @@
             <div class="logo">
                 <a href="/"><i class="fas fa-home"></i></a>
             </div>
-            <ul class="nav-links">
-                <li><a href="#">VIP ></a></li>
-                <li><a href="#">vvip ></a></li>
-                <li><a href="#">vvvip></a></li>
-                <li><a href="#">vvvvvip ></a></li>
-                <li><a href="#">vvvvvvvip ></a></li>
-                <li><a href="#">vvvvvvvvip ></a></li>
+            <ul id="category-nav" class="nav-links">
+                <!-- 分類標籤由 JS 動態產生 -->
             </ul>
         </nav>
     </header>
@@ -56,9 +51,10 @@
             </div>
             <div class="product-info">
                 <h1 id="product-title">Porsche.GT3RS 【Limited Edition】</h1>
-                <div id="product-tags"></div>
+                <div id="product-search-tags" class="product-search-tags-container"></div>
                 <p class="product-stock"><span id="stock-left">5</span> Left</p>
                 <p class="product-price"><span id="usdt-price">USDT 40</span> / <span id="nt-price">NT1200</span></p>
+                <div id="product-classification-tags" class="product-classification-tags-container"></div>
                 
                 <div class="thumbnail-previews" id="thumbnail-previews">
                     <!-- Thumbnails will be dynamically loaded here by JavaScript -->

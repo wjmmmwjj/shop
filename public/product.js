@@ -1,6 +1,17 @@
 /* public/product.js */
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Global function to update cart count display (Copied from index.js)
+    const updateCartCountDisplay = () => {
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountElement.textContent = totalItems;
+            cartCountElement.style.display = totalItems > 0 ? 'flex' : 'none'; 
+        }
+    };
+
     const mainProductImage = document.getElementById('main-product-image');
     const productTitle = document.getElementById('product-title');
     const stockLeft = document.getElementById('stock-left');
@@ -87,14 +98,41 @@ document.addEventListener('DOMContentLoaded', async () => {
                 mainProductImage.alt = product.name;
 
                 productTitle.textContent = product.name;
-                // 顯示商品標籤
-                const tagsDiv = document.getElementById('product-tags');
-                if (product.tags && Array.isArray(product.tags) && product.tags.length > 0) {
-                    tagsDiv.innerHTML = product.tags.map(tag => `<span class="product-tag-box">${tag}</span>`).join(' ');
-                    tagsDiv.style.margin = '8px 0';
-                } else {
-                    tagsDiv.innerHTML = '';
+                
+                // 顯示查詢標籤
+                const productSearchTagsContainer = document.getElementById('product-search-tags');
+                if (productSearchTagsContainer) {
+                    productSearchTagsContainer.innerHTML = ''; // 清空現有標籤
+                    if (product.searchTags && Array.isArray(product.searchTags) && product.searchTags.length > 0) {
+                        product.searchTags.forEach(tag => {
+                            const tagSpan = document.createElement('span');
+                            tagSpan.classList.add('product-search-tag');
+                            tagSpan.textContent = tag;
+                            productSearchTagsContainer.appendChild(tagSpan);
+                        });
+                    }
                 }
+
+                // 移除舊的商品標籤顯示邏輯 (因為 HTML 中已移除相關元素)
+                const oldTagsDiv = document.getElementById('product-tags');
+                if (oldTagsDiv) {
+                    oldTagsDiv.remove();
+                }
+
+                // 顯示分類標籤
+                const productClassificationTagsContainer = document.getElementById('product-classification-tags');
+                if (productClassificationTagsContainer) {
+                    productClassificationTagsContainer.innerHTML = ''; // 清空現有標籤
+                    if (product.tags && Array.isArray(product.tags) && product.tags.length > 0) {
+                        product.tags.forEach(tag => {
+                            const tagSpan = document.createElement('span');
+                            tagSpan.classList.add('product-classification-tag');
+                            tagSpan.textContent = `標籤: ${tag}`;
+                            productClassificationTagsContainer.appendChild(tagSpan);
+                        });
+                    }
+                }
+
                 // 顯示正確庫存
                 console.log('API 回傳庫存:', product.stock, typeof product.stock);
                 if (typeof product.stock === 'number' && !isNaN(product.stock)) {
@@ -248,25 +286,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // 使用自定義通知替代 alert，並設置自動跳轉
         showNotification(`已將 ${currentQuantity} 個 ${currentProduct.name} 加入購物車，即將導向結帳頁面！`, true);
-
-        // Update cart count display on header
-        if (typeof window.updateCartCountDisplay === 'function') {
-            window.updateCartCountDisplay();
-        }
     });
 
+    // Initial product load
     fetchProductDetails();
 
-    // 頁面載入時立即檢查網站狀態
-    (async () => {
-        try {
-            const res = await fetch('/api/settings/websiteStatus');
-            const data = await res.json();
-            if (res.ok && data.websiteStatus === 'paused') {
-                document.body.innerHTML = '<div style="text-align:center;padding:80px;font-size:2em;">網站維護中，請稍後再訪。</div>';
-            }
-        } catch (e) {}
-    })();
+    // 初始更新購物車數量顯示
+    updateCartCountDisplay();
+
+    // 動態載入分類並渲染於 #category-nav (簡化版，僅顯示)
+    async function renderCategoryNav() {
+        const res = await fetch('/api/tags');
+        const tags = await res.json();
+        const nav = document.getElementById('category-nav');
+        if (nav) { // 檢查 nav 是否存在
+            nav.innerHTML = '';
+            tags.forEach(tag => {
+                const li = document.createElement('li');
+                li.style.display = 'inline-block';
+                li.style.marginRight = '12px';
+                const a = document.createElement('a');
+                a.href = '#'; // 連結保持為 #，因為商品頁面不需要篩選功能
+                a.textContent = tag;
+                a.className = 'category-link';
+                li.appendChild(a);
+                nav.appendChild(li);
+            });
+        }
+    }
+
+    // 頁面初始化時載入分類導航
+    renderCategoryNav();
 });
 
 // === 即時搜尋功能 ===
