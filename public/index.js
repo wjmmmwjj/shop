@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // 動態載入分類並渲染於 #category-nav
-    let selectedCategories = [];
+    let selectedCategory = null;
     async function renderCategoryNav() {
         const res = await fetch('/api/tags');
         const tags = await res.json();
@@ -120,12 +120,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             a.dataset.tag = tag;
             a.onclick = function(e) {
                 e.preventDefault();
-                // 多選切換
-                if (selectedCategories.includes(tag)) {
-                    selectedCategories = selectedCategories.filter(t => t !== tag);
-                    a.classList.remove('active');
+                // 單選切換
+                if (selectedCategory === tag) {
+                    // 如果點擊已選中的分類，取消選擇
+                    selectedCategory = null;
+                    document.querySelectorAll('.category-link').forEach(link => link.classList.remove('active'));
                 } else {
-                    selectedCategories.push(tag);
+                    // 選擇新分類
+                    selectedCategory = tag;
+                    document.querySelectorAll('.category-link').forEach(link => link.classList.remove('active'));
                     a.classList.add('active');
                 }
                 filterProductsByCategory();
@@ -137,12 +140,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 過濾顯示商品
     function filterProductsByCategory() {
-        if (selectedCategories.length === 0) {
+        if (!selectedCategory) {
             displayProducts(window.allProducts || []);
             return;
         }
-        const filtered = (window.allProducts || []).filter(p => Array.isArray(p.tags) && p.tags.some(tag => selectedCategories.includes(tag)));
-        displayProducts(filtered, `分類：${selectedCategories.join(', ')}`);
+        const filtered = (window.allProducts || []).filter(p => Array.isArray(p.tags) && p.tags.includes(selectedCategory));
+        displayProducts(filtered, `分類：${selectedCategory}`);
     }
 
     // 加載並顯示所有產品
